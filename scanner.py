@@ -54,6 +54,7 @@ if __name__ == "__main__":
     parser.add_argument("nuclei", help="nuclei scan")
     parser.add_argument("sublister", help="subdomain scans")
     parser.add_argument("wpscan", help="wordpress scan")
+    parser.add_argument("wpscan_api", help="wpscan API Key")
     args = parser.parse_args()
 
 
@@ -139,7 +140,7 @@ if __name__ == "__main__":
 
 
         if args.wpscan == 'True':
-            Wordpress = subprocess.Popen(["python3", "./tools/wpscan.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, args.url],
+            Wordpress = subprocess.Popen(["python3", "./tools/wpscan.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, args.url, args.wpscan_api],
                         stdout=subprocess.PIPE,
                         stderr=subprocess.PIPE,
                         universal_newlines=True

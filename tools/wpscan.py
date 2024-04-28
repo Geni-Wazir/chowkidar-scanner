@@ -2,11 +2,7 @@ import json
 import subprocess
 import argparse
 import requests
-import os
-from dotenv import load_dotenv
 
-
-load_dotenv()
 
 
 def wordpress_interesting_findings(data):
@@ -98,12 +94,13 @@ if __name__ == "__main__":
     parser.add_argument("add_vulnerability_api", help="API to send the discovered vulnerabilities")
     parser.add_argument("audit_id", help="Audit id")
     parser.add_argument("url", help="Scope URL for scan")
+    parser.add_argument("wpscan_api", help="wpscan API Key")
     args = parser.parse_args()
 
     wpscan_json = subprocess.Popen(
 						    ["wpscan",
 						     "--url", args.url,
-						     "--api-token", os.environ['WPSCAN_API_KEY'],
+						     "--api-token", args.wpscan_api,
 						     "-e", "vp,vt,cb,dbe,u",
                              "-f", "json",
                              "-o", "wpscan.json"],
@@ -111,12 +108,12 @@ if __name__ == "__main__":
 						    stderr=subprocess.PIPE,
 						    universal_newlines=True
                             )
-    
+    output, errors = wpscan_json.communicate()
 
     wpscan_orignal = subprocess.Popen(
 						    ["wpscan",
 						     "--url", args.url,
-						     "--api-token", os.environ['WPSCAN_API_KEY'],
+						     "--api-token", args.wpscan_api,
 						     "-e", "vp,vt,cb,dbe,u",
                              "-f", "cli-no-colour",],
 						    stdout=subprocess.PIPE,
@@ -124,8 +121,6 @@ if __name__ == "__main__":
 						    universal_newlines=True
                             )
     
-
-    output, errors = wpscan_json.communicate()
     output_orignal, orignal_errors = wpscan_orignal.communicate()
     result = {'secret_key':args.secret_key, 'audit_id':args.audit_id, 'tool':'wpscan', 'output': output_orignal+orignal_errors}
     response = requests.post(args.scan_result_api, json=result)
