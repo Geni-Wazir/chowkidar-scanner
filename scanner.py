@@ -49,6 +49,7 @@ if __name__ == "__main__":
     parser.add_argument("url", help="Scope URL for scan")
     parser.add_argument("nmap", help="nmap scan")
     parser.add_argument("headers", help="security headers scan")
+    parser.add_argument("dirsearch", help="directory scan")
     args = parser.parse_args()
 
 
@@ -78,6 +79,17 @@ if __name__ == "__main__":
                                             )
 
             output, errors = Nmap.communicate()
+
+
+
+        if args.dirsearch == 'True':
+            Dirsearch = subprocess.Popen(["python3", "./tools/dirsearch.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, args.url],
+                                            stdout=subprocess.PIPE,
+                                            stderr=subprocess.PIPE,
+                                            universal_newlines=True
+                                            )
+
+            output, errors = Dirsearch.communicate()
         
 
 
@@ -98,6 +110,8 @@ if __name__ == "__main__":
             tools.append('poodle')
         if args.headers == 'True':
             tools.append('headers')
+        if args.dirsearch == 'True':
+            tools.append('dirsearch')
 
         status_update = {'secret_key':args.secret_key, 
                       'audit_id':args.audit_id, 
