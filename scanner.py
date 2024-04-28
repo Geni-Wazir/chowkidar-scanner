@@ -110,6 +110,17 @@ if __name__ == "__main__":
                         )
             
             output, errors = Testssl.communicate()
+
+
+
+        if args.nuclei == 'True':
+            Nuclei = subprocess.Popen(["python3", "./tools/nuclei.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, args.url],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        universal_newlines=True
+                        )
+            
+            output, errors = Nuclei.communicate()
         
 
 
@@ -134,6 +145,8 @@ if __name__ == "__main__":
             tools.append('dirsearch')
         if args.testssl == 'True':
             tools.append('testssl')
+        if args.nuclei == 'True':
+            tools.append('nuclei')
 
         status_update = {'secret_key':args.secret_key, 
                       'audit_id':args.audit_id, 
