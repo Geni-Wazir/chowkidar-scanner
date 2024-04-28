@@ -43,11 +43,11 @@ def tls_vulnerabilies(data):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Performs directory enumeration")
-    parser.add_argument("secret_key", help="secret key to submit the request")
-    parser.add_argument("scan_result_api", help="API where to send the scan output")
-    parser.add_argument("add_vulnerability_api", help="Server API endpoint for sending request")
-    parser.add_argument("audit_id", help="Audit id for which the scan is Initiated")
-    parser.add_argument("url", help="URL for which the ciphers needs to be extracted")
+    parser.add_argument("secret_key", help="Authentication secret key")
+    parser.add_argument("scan_result_api", help="API to send the scan output")
+    parser.add_argument("add_vulnerability_api", help="API to send the discovered vulnerabilities")
+    parser.add_argument("audit_id", help="Audit id")
+    parser.add_argument("url", help="Scope domin for scan")
     args = parser.parse_args()
 
     testssl = subprocess.Popen(
