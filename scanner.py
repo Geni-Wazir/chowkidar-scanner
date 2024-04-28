@@ -51,6 +51,7 @@ if __name__ == "__main__":
     parser.add_argument("headers", help="security headers scan")
     parser.add_argument("dirsearch", help="directory scan")
     parser.add_argument("testssl", help="ssl/tsl scan")
+    parser.add_argument("sublister", help="subdomain scans")
     args = parser.parse_args()
 
 
@@ -121,6 +122,17 @@ if __name__ == "__main__":
                         )
             
             output, errors = Nuclei.communicate()
+
+
+
+        if args.sublister == 'True':
+            Sublister = subprocess.Popen(["python3", "./tools/subdomains.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, domain],
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                universal_newlines=True
+                                )
+            
+            output, errors = Sublister.communicate()
         
 
 
@@ -147,6 +159,8 @@ if __name__ == "__main__":
             tools.append('testssl')
         if args.nuclei == 'True':
             tools.append('nuclei')
+        if args.sublister == 'True':
+            tools.append('sublister')
 
         status_update = {'secret_key':args.secret_key, 
                       'audit_id':args.audit_id, 
