@@ -1,6 +1,7 @@
 import re
 import argparse
 import requests
+import subprocess
 
 
 def extract_domain(url: str) -> str:
@@ -46,12 +47,46 @@ if __name__ == "__main__":
     parser.add_argument("scan_status_api", help="API to update the scan status")
     parser.add_argument("audit_id", help="Audit id")
     parser.add_argument("url", help="Scope URL for scan")
+    parser.add_argument("nmap", help="nmap scan")
     args = parser.parse_args()
 
 
     domain = extract_domain(args.url)
 
+
+
+
     if check_website_accessible(args.url):
-        pass
+        if args.nmap == 'True':
+            Nmap = subprocess.Popen(["python3", "./tools/nmap.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, domain],
+                                            stdout=subprocess.PIPE,
+                                            stderr=subprocess.PIPE,
+                                            universal_newlines=True
+                                            )
+
+            output, errors = Nmap.communicate()
+        
+
+
+
+        status_update = {'secret_key':args.secret_key, 
+                      'audit_id':args.audit_id, 
+                      'status':'finished',
+                      }
+        response = requests.post(args.scan_status_api, json=status_update)
     else:
-        pass
+        tools = []
+        if args.nmap == 'True':
+            tools.append('nmap')
+            tools.append('vulnerabilities')
+            tools.append('slowloris')
+            tools.append('diffiehellman')
+            tools.append('heartbleed')
+            tools.append('poodle')
+
+        status_update = {'secret_key':args.secret_key, 
+                      'audit_id':args.audit_id, 
+                      'status':'stopped',
+                      'tools':tools
+                      }
+        response = requests.post(args.scan_status_api, json=status_update)
