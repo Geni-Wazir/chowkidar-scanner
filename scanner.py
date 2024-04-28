@@ -52,6 +52,7 @@ if __name__ == "__main__":
     parser.add_argument("dirsearch", help="directory scan")
     parser.add_argument("testssl", help="ssl/tsl scan")
     parser.add_argument("sublister", help="subdomain scans")
+    parser.add_argument("wpscan", help="wordpress scan")
     args = parser.parse_args()
 
 
@@ -133,6 +134,17 @@ if __name__ == "__main__":
                                 )
             
             output, errors = Sublister.communicate()
+
+
+
+        if args.wpscan == 'True':
+            Wordpress = subprocess.Popen(["python3", "./tools/wpscan.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, args.url],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        universal_newlines=True
+                        )
+            
+            output, errors = Wordpress.communicate()
         
 
 
@@ -161,6 +173,8 @@ if __name__ == "__main__":
             tools.append('nuclei')
         if args.sublister == 'True':
             tools.append('sublister')
+        if args.wpscan == 'True':
+            tools.append('wpscan')
 
         status_update = {'secret_key':args.secret_key, 
                       'audit_id':args.audit_id, 
