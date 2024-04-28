@@ -50,6 +50,7 @@ if __name__ == "__main__":
     parser.add_argument("nmap", help="nmap scan")
     parser.add_argument("headers", help="security headers scan")
     parser.add_argument("dirsearch", help="directory scan")
+    parser.add_argument("testssl", help="ssl/tsl scan")
     args = parser.parse_args()
 
 
@@ -90,6 +91,25 @@ if __name__ == "__main__":
                                             )
 
             output, errors = Dirsearch.communicate()
+
+
+
+        if args.testssl == 'True':
+            Lucky13 = subprocess.Popen(
+                                    ["python3", "./tools/lucky13.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, domain],
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE,
+                                    universal_newlines=True)
+            
+            output, errors = Lucky13.communicate()
+
+            Testssl = subprocess.Popen(["python3", "./tools/testssl.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, args.url],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        universal_newlines=True
+                        )
+            
+            output, errors = Testssl.communicate()
         
 
 
@@ -112,6 +132,8 @@ if __name__ == "__main__":
             tools.append('headers')
         if args.dirsearch == 'True':
             tools.append('dirsearch')
+        if args.testssl == 'True':
+            tools.append('testssl')
 
         status_update = {'secret_key':args.secret_key, 
                       'audit_id':args.audit_id, 
