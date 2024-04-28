@@ -51,6 +51,7 @@ if __name__ == "__main__":
     parser.add_argument("headers", help="security headers scan")
     parser.add_argument("dirsearch", help="directory scan")
     parser.add_argument("testssl", help="ssl/tsl scan")
+    parser.add_argument("nuclei", help="nuclei scan")
     parser.add_argument("sublister", help="subdomain scans")
     parser.add_argument("wpscan", help="wordpress scan")
     args = parser.parse_args()
