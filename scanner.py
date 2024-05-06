@@ -76,17 +76,6 @@ if __name__ == "__main__":
 
 
 
-        if args.nmap == 'True':
-            Nmap = subprocess.Popen(["python3", "./tools/nmap.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, domain],
-                                            stdout=subprocess.PIPE,
-                                            stderr=subprocess.PIPE,
-                                            universal_newlines=True
-                                            )
-
-            output, errors = Nmap.communicate()
-
-
-
         if args.dirsearch == 'True':
             Dirsearch = subprocess.Popen(["python3", "./tools/dirsearch.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, args.url],
                                             stdout=subprocess.PIPE,
@@ -147,6 +136,18 @@ if __name__ == "__main__":
                         )
             
             output, errors = Wordpress.communicate()
+
+
+
+
+        if args.nmap == 'True':
+            Nmap = subprocess.Popen(["python3", "./tools/nmap.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, domain],
+                                            stdout=subprocess.PIPE,
+                                            stderr=subprocess.PIPE,
+                                            universal_newlines=True
+                                            )
+
+            output, errors = Nmap.communicate()
         
 
 
