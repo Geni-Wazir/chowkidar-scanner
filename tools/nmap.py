@@ -21,7 +21,7 @@ if __name__ == "__main__":
     
 
 # Performs the ping with a service version detection scan for all 65535 ports.
-    Nmap = subprocess.Popen(["nmap", "-sV", "-p-", "-Pn", "--min-rate=500", "-oX", "nmap.xml", args.url],
+    Nmap = subprocess.Popen(["nmap", "-sV", "-p-", "-Pn", "-T3", "-oX", "nmap.xml", args.url],
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
                                         universal_newlines=True
@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
 
 # Performs the vulners script scan for all the known ports.
-    Vulnerabilities = subprocess.Popen(["nmap", "-sV", "--script=vulners.nse", "-oX", "./vulnerabilities.xml", args.url],
+    Vulnerabilities = subprocess.Popen(["nmap", "-sV", "-T3", "--script=vulners.nse", "-oX", "./vulnerabilities.xml", args.url],
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
                                         universal_newlines=True
@@ -61,7 +61,7 @@ if __name__ == "__main__":
 
 
 # Performs the slowloris script scan for all the known ports.
-    Slowloris = subprocess.Popen(["nmap", "-Pn", "--script=http-slowloris-check", "-oX", "./slowloris.xml", args.url],
+    Slowloris = subprocess.Popen(["nmap", "-Pn", "-T3", "--script=http-slowloris-check", "-oX", "./slowloris.xml", args.url],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE,
                                 universal_newlines=True
@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
 
 # Performs the diffiehellman script scan for all the known ports.
-    DiffieHellman = subprocess.Popen(["nmap", "--script=ssl-dh-params", "-oX", "./diffiehellman.xml", args.url],
+    DiffieHellman = subprocess.Popen(["nmap", "-T3", "--script=ssl-dh-params", "-oX", "./diffiehellman.xml", args.url],
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
                                         universal_newlines=True
@@ -102,7 +102,7 @@ if __name__ == "__main__":
 
 
 # Performs the heartbleed script scan for all the known ports.
-    Heartbleed = subprocess.Popen(["nmap", "-sV", "--script=ssl-heartbleed", "-p443,80", "-oX", "./heartbleed.xml", args.url],
+    Heartbleed = subprocess.Popen(["nmap", "-sV", "-T3", "--script=ssl-heartbleed", "-p443,80", "-oX", "./heartbleed.xml", args.url],
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE,
                                     universal_newlines=True
@@ -121,7 +121,7 @@ if __name__ == "__main__":
 
 
 # Performs the poodle script scan for all the known ports.
-    Poodle = subprocess.Popen(["nmap", "-sV", "--version-light", "--script=ssl-poodle", "-oX", "./poodle.xml", args.url],
+    Poodle = subprocess.Popen(["nmap", "-sV", "-T3", "--version-light", "--script=ssl-poodle", "-oX", "./poodle.xml", args.url],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE,
                                 universal_newlines=True

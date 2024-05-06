@@ -16,7 +16,8 @@ if __name__ == "__main__":
 
     Nuclei_update = subprocess.Popen(
 						    ["nuclei",
-						     "-ut"],
+						     "-ut",
+                             "-up"],
 						    stdout=subprocess.PIPE,
 						    stderr=subprocess.PIPE,
 						    universal_newlines=True
@@ -28,6 +29,7 @@ if __name__ == "__main__":
     Nuclei = subprocess.Popen(
 						    ["nuclei",
                              "-nc",
+                             "-rl", "50"
                              "-u",args.url],
 						    stdout=subprocess.PIPE,
 						    stderr=subprocess.PIPE,
