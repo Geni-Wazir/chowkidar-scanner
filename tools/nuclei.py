@@ -3,7 +3,6 @@ import subprocess
 import argparse
 import requests
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Performs directory enumeration")
     parser.add_argument("secret_key", help="Authentication secret key")
@@ -13,32 +12,24 @@ if __name__ == "__main__":
     parser.add_argument("url", help="Scope URL for scan")
     args = parser.parse_args()
 
-
+    # Update Nuclei templates
     Nuclei_update = subprocess.Popen(
-						    ["nuclei",
-						     "-ut",
-                             "-up"],
-						    stdout=subprocess.PIPE,
-						    stderr=subprocess.PIPE,
-						    universal_newlines=True
-                            )
-    
+        ["nuclei", "-ut", "-up"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        universal_newlines=True
+    )
     output, errors = Nuclei_update.communicate()
 
-
+    # Run Nuclei scan
     Nuclei = subprocess.Popen(
-						    ["nuclei",
-                             "-nc",
-                             "-rl", "50"
-                             "-u",args.url],
-						    stdout=subprocess.PIPE,
-						    stderr=subprocess.PIPE,
-						    universal_newlines=True
-                            )
-    
+        ["nuclei", "-nc", "-u", args.url],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        universal_newlines=True
+    )
     output, errors = Nuclei.communicate()
-    
-    result = {'secret_key':args.secret_key, 'audit_id':args.audit_id, 'tool':'nuclei', 'output': errors+output}
+
+    # Prepare and send scan result to the scan_result_api
+    result = {'secret_key': args.secret_key, 'audit_id': args.audit_id, 'tool': 'nuclei', 'output': errors + output}
     response = requests.post(args.scan_result_api, json=result)
-
-
