@@ -5,7 +5,7 @@
 
 
 ## Project Description:
-Chowkidar Scanner is an integral part of the <a href="https://chowkidar-platform-link.com" target="_blank">Chowkidar platform</a>, enabling users to add new audits, perform automated scans, and generate detailed vulnerability reports. This scanner leverages various open-source tools and incorporates custom rules to detect and report vulnerabilities.
+Chowkidar Scanner is an integral part of the <a href="https://chowkidar.xyz/" target="_blank">Chowkidar platform</a>, enabling users to add new audits, perform automated scans, and generate detailed vulnerability reports. This scanner leverages various open-source tools and incorporates custom rules to detect and report vulnerabilities.
 
 ## Features
 - **Automated Scanning:** Once a new audit is added via the Chowkidar platform, the scanner automatically performs a series of comprehensive scans to identify potential security issues.
