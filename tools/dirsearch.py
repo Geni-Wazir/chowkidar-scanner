@@ -51,7 +51,7 @@ def perform_directory_enumeration(secret_key, scan_result_api, add_vulnerability
                         break
             
             if directory_traversal_urls:
-                result_list = {'Directory Listing Enabled': directory_traversal_urls}
+                result_list['Directory Listing Enabled'] = directory_traversal_urls
 
             if result_list:
                 discovered_endpoints['vulnerabilities'] = result_list
