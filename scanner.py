@@ -76,14 +76,15 @@ if __name__ == "__main__":
 
 
 
-        if args.dirsearch == 'True':
-            Dirsearch = subprocess.Popen(["python3", "./tools/dirsearch.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, args.url],
+        if args.nmap == 'True':
+            Nmap = subprocess.Popen(["python3", "./tools/nmap.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, domain],
                                             stdout=subprocess.PIPE,
                                             stderr=subprocess.PIPE,
                                             universal_newlines=True
                                             )
 
-            output, errors = Dirsearch.communicate()
+            output, errors = Nmap.communicate()
+
 
 
 
@@ -106,6 +107,19 @@ if __name__ == "__main__":
 
 
 
+            
+        if args.dirsearch == 'True':
+            Dirsearch = subprocess.Popen(["python3", "./tools/dirsearch.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, args.url],
+                                            stdout=subprocess.PIPE,
+                                            stderr=subprocess.PIPE,
+                                            universal_newlines=True
+                                            )
+
+            output, errors = Dirsearch.communicate()
+
+
+
+
         if args.nuclei == 'True':
             Nuclei = subprocess.Popen(["python3", "./tools/nuclei.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, args.url],
                         stdout=subprocess.PIPE,
@@ -114,6 +128,7 @@ if __name__ == "__main__":
                         )
             
             output, errors = Nuclei.communicate()
+
 
 
 
@@ -128,6 +143,7 @@ if __name__ == "__main__":
 
 
 
+
         if args.wpscan == 'True':
             Wordpress = subprocess.Popen(["python3", "./tools/wpscan.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, args.url, args.wpscan_api],
                         stdout=subprocess.PIPE,
@@ -135,20 +151,8 @@ if __name__ == "__main__":
                         universal_newlines=True
                         )
             
-            output, errors = Wordpress.communicate()
+            output, errors = Wordpress.communicate()        
 
-
-
-
-        if args.nmap == 'True':
-            Nmap = subprocess.Popen(["python3", "./tools/nmap.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, domain],
-                                            stdout=subprocess.PIPE,
-                                            stderr=subprocess.PIPE,
-                                            universal_newlines=True
-                                            )
-
-            output, errors = Nmap.communicate()
-        
 
 
 
