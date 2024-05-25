@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     if check_website_accessible(args.url):
         if args.headers == 'True':
-            Headers = subprocess.Popen(["python3", "./tools/headers.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, args.url],
+            Headers = subprocess.Popen(["python3", "./tools/headers.py", args.secret_key, args.add_vulnerability_api, args.audit_id, args.url],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE,
                                 universal_newlines=True
