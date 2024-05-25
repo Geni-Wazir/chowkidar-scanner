@@ -31,7 +31,27 @@ def perform_directory_enumeration(secret_key, scan_result_api, add_vulnerability
             # Extract discovered endpoints from JSON data
             discovered_endpoints = {'secret_key': secret_key, 'audit_id': audit_id}
             endpoints_list = [result['url'] + (" --> " + result['redirect']) if result['redirect'] else result['url'] for result in data['results']]
+            directory_urls = [result['url'] for result in data['results'] if result['url'].endswith('/')]
             result_list = {'Endpoints Discovered': endpoints_list}
+
+            indicators = [
+            '<title>Index of',
+            'Index of /',
+            'Directory listing for',
+            'Parent Directory',
+            'Directory Listing'
+            ]
+
+            directory_traversal_urls = []
+            for url in directory_urls:
+                response = requests.get(url)
+                for indicator in indicators:
+                    if indicator in response.text:
+                        directory_traversal_urls.append(url)
+                        break
+            
+            if directory_traversal_urls:
+                result_list = {'Directory Listing Enabled': directory_traversal_urls}
 
             if result_list:
                 discovered_endpoints['vulnerabilities'] = result_list
