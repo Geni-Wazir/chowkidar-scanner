@@ -21,7 +21,7 @@ if __name__ == "__main__":
     output, errors = subdomains_scan.communicate()
 
     # Prepare and send scan result to the scan_result_api
-    result = {'secret_key': args.secret_key, 'audit_id': args.audit_id, 'tool': 'sublist3r', 'output': errors + output}
+    result = {'secret_key': args.secret_key, 'audit_id': args.audit_id, 'tool': 'sublister', 'output': errors + output}
     response = requests.post(args.scan_result_api, json=result)
 
     # If no errors occurred, process and send discovered subdomains to add_vulnerability_api
