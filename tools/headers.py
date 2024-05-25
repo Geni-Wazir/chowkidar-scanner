@@ -28,6 +28,7 @@ def check_security_headers(secret_key, add_vulnerability_api, audit_id, url):
         if vulnerabilities:
             missing_security_headers['vulnerabilities'] = vulnerabilities
             response = requests.post(add_vulnerability_api, json=missing_security_headers)
+        print(vulnerabilities)
     else:
         print(f"Error occurred: {errors}")
 
