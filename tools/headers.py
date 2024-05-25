@@ -2,6 +2,7 @@ import json
 import subprocess
 import argparse
 import requests
+import re
 
 def check_security_headers(secret_key, add_vulnerability_api, audit_id, url):
     headers_process = subprocess.Popen(
@@ -23,7 +24,14 @@ def check_security_headers(secret_key, add_vulnerability_api, audit_id, url):
         if security_headers[headers_for]['missing']:
             vulnerabilities['Missing Security Headers'] = security_headers[headers_for]['missing']
         if security_headers['information_disclosure']:
-            vulnerabilities['Banner Grabbing'] = [f"{header}: {value}" for header, value in security_headers['information_disclosure'].items()]
+
+            number_regex = re.compile(r'\d')
+
+            vulnerabilities['Banner Grabbing'] = [
+                                                    f"{header}: {value}"
+                                                    for header, value in security_headers['information_disclosure'].items()
+                                                    if number_regex.search(value)
+                                                ]
 
         if vulnerabilities:
             missing_security_headers['vulnerabilities'] = vulnerabilities
