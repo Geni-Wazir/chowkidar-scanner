@@ -109,7 +109,7 @@ if __name__ == "__main__":
 
             
         if args.dirsearch == 'True':
-            Dirsearch = subprocess.Popen(["python3", "./tools/dirsearch.py", args.secret_key, args.scan_result_api, args.add_vulnerability_api, args.audit_id, args.url],
+            Dirsearch = subprocess.Popen(["python3", "./tools/dirsearch.py", args.secret_key, args.add_vulnerability_api, args.audit_id, args.url],
                                             stdout=subprocess.PIPE,
                                             stderr=subprocess.PIPE,
                                             universal_newlines=True
