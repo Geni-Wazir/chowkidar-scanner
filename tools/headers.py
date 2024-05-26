@@ -26,12 +26,9 @@ def check_security_headers(secret_key, add_vulnerability_api, audit_id, url):
         if security_headers['information_disclosure']:
 
             number_regex = re.compile(r'\d')
-
-            vulnerabilities['Banner Grabbing'] = [
-                                                    f"{header}: {value}"
-                                                    for header, value in security_headers['information_disclosure'].items()
-                                                    if number_regex.search(value)
-                                                ]
+            banner_header = [f"{header}: {value}" for header, value in security_headers['information_disclosure'].items() if number_regex.search(value) ]
+            if banner_header:
+                vulnerabilities['Banner Grabbing'] = banner_header
 
         if vulnerabilities:
             missing_security_headers['vulnerabilities'] = vulnerabilities
