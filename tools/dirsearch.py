@@ -20,7 +20,7 @@ def run_dirsearch(url):
         print(f"Error occurred: {errors}")
         return None
     try:
-        with open('tool-output.json', "r") as file:
+        with open('dirsearch.json', "r") as file:
             return json.load(file)
     except FileNotFoundError:
         print('No endpoints discovered')
