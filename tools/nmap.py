@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
     
 
-    Nmap = subprocess.Popen(["nmap", "-sV", "-p-", "-Pn", "--min-rate=500", "-oX", "nmap.xml", args.url],
+    Nmap = subprocess.Popen(["nmap", "-sV", "-p-", "-Pn", "-T3", "-oX", "nmap.xml", args.url],
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
                                         universal_newlines=True
@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
 
 
-    Vulnerabilities = subprocess.Popen(["nmap", "-sV", "--script=vulners.nse", "-oX", "./vulnerabilities.xml", args.url],
+    Vulnerabilities = subprocess.Popen(["nmap", "-sV", "--script=vulners.nse", "-T3", "-oX", "./vulnerabilities.xml", args.url],
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
                                         universal_newlines=True
@@ -57,7 +57,7 @@ if __name__ == "__main__":
 
 
 
-    Slowloris = subprocess.Popen(["nmap", "-Pn", "--script=http-slowloris-check", "-oX", "./slowloris.xml", args.url],
+    Slowloris = subprocess.Popen(["nmap", "-Pn", "--script=http-slowloris-check", "-T3", "-oX", "./slowloris.xml", args.url],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE,
                                 universal_newlines=True
@@ -76,7 +76,7 @@ if __name__ == "__main__":
 
 
 
-    DiffieHellman = subprocess.Popen(["nmap", "--script=ssl-dh-params", "-oX", "./diffiehellman.xml", args.url],
+    DiffieHellman = subprocess.Popen(["nmap", "--script=ssl-dh-params", "-T3", "-oX", "./diffiehellman.xml", args.url],
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
                                         universal_newlines=True
@@ -95,7 +95,7 @@ if __name__ == "__main__":
 
 
 
-    Heartbleed = subprocess.Popen(["nmap", "-sV", "--script=ssl-heartbleed", "-p443,80", "-oX", "./heartbleed.xml", args.url],
+    Heartbleed = subprocess.Popen(["nmap", "-sV", "--script=ssl-heartbleed", "-T3", "-p443,80", "-oX", "./heartbleed.xml", args.url],
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE,
                                     universal_newlines=True
@@ -113,7 +113,7 @@ if __name__ == "__main__":
 
 
 
-    Poodle = subprocess.Popen(["nmap", "-sV", "--version-light", "--script=ssl-poodle", "-oX", "./poodle.xml", args.url],
+    Poodle = subprocess.Popen(["nmap", "-sV", "--version-light", "--script=ssl-poodle", "-T3", "-oX", "./poodle.xml", args.url],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE,
                                 universal_newlines=True
